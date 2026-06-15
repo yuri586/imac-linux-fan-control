@@ -4,6 +4,16 @@ Custom fan control and temperature dashboard for **iMac 2011 running Linux Mint*
 
 This project contains a small set of Bash/systemd tools that solve a real hardware problem: manual fan control on an older iMac after installing Linux.
 
+## Portfolio value
+
+This repository demonstrates practical Linux automation:
+
+- working with hardware sensors;
+- writing safe Bash scripts;
+- installing and managing systemd services;
+- documenting a real maintenance task;
+- solving a real problem on old hardware after switching to Linux.
+
 ## What it does
 
 - Enables manual fan control through `applesmc`
