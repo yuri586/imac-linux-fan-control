@@ -3,6 +3,8 @@
 set -u
 
 FAN_PATH="/sys/devices/platform/applesmc.768"
+EXPECTED_PRODUCT="iMac12,2"
+EXPECTED_BOARD="Mac-942B59F58194171B"
 
 echo "=== iMac Linux Fan Control environment check ==="
 echo
@@ -27,6 +29,37 @@ check_file() {
     fi
 }
 
+read_dmi() {
+    local path="$1"
+    if [[ -r "$path" ]]; then
+        cat "$path"
+    else
+        echo "unknown"
+    fi
+}
+
+echo "--- Hardware ---"
+PRODUCT_NAME="$(read_dmi /sys/devices/virtual/dmi/id/product_name)"
+BOARD_NAME="$(read_dmi /sys/devices/virtual/dmi/id/board_name)"
+
+echo "Detected product: $PRODUCT_NAME"
+echo "Detected board:   $BOARD_NAME"
+
+if [[ "$PRODUCT_NAME" == "$EXPECTED_PRODUCT" ]]; then
+    echo "OK: expected product '$EXPECTED_PRODUCT' detected"
+else
+    echo "WARNING: expected product '$EXPECTED_PRODUCT', got '$PRODUCT_NAME'"
+    OK=0
+fi
+
+if [[ "$BOARD_NAME" == "$EXPECTED_BOARD" ]]; then
+    echo "OK: expected board '$EXPECTED_BOARD' detected"
+else
+    echo "WARNING: expected board '$EXPECTED_BOARD', got '$BOARD_NAME'"
+    OK=0
+fi
+
+echo
 echo "--- Commands ---"
 check_command sensors
 
@@ -83,7 +116,13 @@ if [[ "$OK" -eq 1 ]]; then
     echo "  sudo ./scripts/install.sh"
     exit 0
 else
-    echo "RESULT: environment is not ready."
+    echo "RESULT: environment is not fully compatible or not ready."
+    echo
+    echo "Check:"
+    echo "  cat /sys/devices/virtual/dmi/id/product_name"
+    echo "  cat /sys/devices/virtual/dmi/id/board_name"
+    echo "  sensors"
+    echo "  ls /sys/devices/platform/applesmc.768/fan*"
     echo
     echo "Try:"
     echo "  sudo apt install lm-sensors"

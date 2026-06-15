@@ -23,12 +23,25 @@ It is a documented, real-world Linux automation example for one specific machine
 
 ## Target machine
 
-Tested on:
+Tested hardware:
 
-- iMac 2011
+- Apple iMac 27-inch, Mid 2011
+- Model Identifier: `iMac12,2`
+- Board ID: `Mac-942B59F58194171B`
 - Linux Mint
 - `applesmc` kernel module
 - `lm-sensors`
+
+This project was tested on the exact machine above.  
+It may work on similar iMac models, but sensor names and fan paths can be different.
+
+You can check your model on Linux with:
+
+```bash
+cat /sys/devices/virtual/dmi/id/product_name
+cat /sys/devices/virtual/dmi/id/board_name
+inxi -M
+```
 
 Expected fan paths:
 
