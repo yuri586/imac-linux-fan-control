@@ -1,0 +1,12 @@
+[Unit]
+Description=Custom Fan Control for iMac 2011
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/imac-custom-fan-control.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
