@@ -38,6 +38,76 @@ Expected fan paths:
 /sys/devices/platform/applesmc.768/fan3_*
 ```
 
+## Before installation
+
+This project depends on Linux hardware sensors.
+
+The scripts do not create sensors by themselves.  
+They expect that Linux already exposes CPU/GPU temperature sensors and fan control files.
+
+Install sensor tools first:
+
+```bash
+sudo apt update
+sudo apt install lm-sensors
+```
+
+Detect available sensors:
+
+```bash
+sudo sensors-detect
+```
+
+On iMac hardware, the `applesmc` module may also be needed:
+
+```bash
+sudo modprobe applesmc
+```
+
+Check sensor output:
+
+```bash
+sensors
+```
+
+This project expects to find:
+
+```text
+coretemp-isa-0000
+applesmc-isa-0300
+Package id 0
+TG0H
+```
+
+It also expects fan control files here:
+
+```text
+/sys/devices/platform/applesmc.768/fan1_manual
+/sys/devices/platform/applesmc.768/fan1_output
+/sys/devices/platform/applesmc.768/fan1_input
+
+/sys/devices/platform/applesmc.768/fan2_manual
+/sys/devices/platform/applesmc.768/fan2_output
+/sys/devices/platform/applesmc.768/fan2_input
+
+/sys/devices/platform/applesmc.768/fan3_manual
+/sys/devices/platform/applesmc.768/fan3_output
+/sys/devices/platform/applesmc.768/fan3_input
+```
+
+Run the environment check before installation:
+
+```bash
+chmod +x scripts/*.sh
+./scripts/check_environment.sh
+```
+
+If the check passes, install the fan control service:
+
+```bash
+sudo ./scripts/install.sh
+```
+
 ## Repository structure
 
 ```text
@@ -45,6 +115,7 @@ Expected fan paths:
 ├── scripts/
 │   ├── imac-custom-fan-control.sh
 │   ├── show_temps.sh
+│   ├── check_environment.sh
 │   ├── install.sh
 │   └── uninstall.sh
 ├── systemd/
@@ -63,6 +134,7 @@ git clone https://github.com/yuri586/imac-linux-fan-control.git
 cd imac-linux-fan-control
 
 chmod +x scripts/*.sh
+./scripts/check_environment.sh
 sudo ./scripts/install.sh
 ```
 

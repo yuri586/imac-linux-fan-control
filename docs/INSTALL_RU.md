@@ -3,6 +3,64 @@
 
 Этот проект предназначен для конкретного случая: iMac 2011 на Linux Mint с доступным модулем `applesmc`.
 
+## 0. Установка и проверка датчиков
+
+Скрипт управления вентиляторами не создаёт датчики сам.  
+Он использует то, что Linux уже видит через `lm-sensors` и `applesmc`.
+
+Сначала установи инструменты:
+
+```bash
+sudo apt update
+sudo apt install lm-sensors
+```
+
+Запусти определение датчиков:
+
+```bash
+sudo sensors-detect
+```
+
+На вопросы обычно можно отвечать `yes` или принимать значения по умолчанию.
+
+Для iMac может понадобиться загрузить модуль `applesmc`:
+
+```bash
+sudo modprobe applesmc
+```
+
+Проверь датчики:
+
+```bash
+sensors
+```
+
+В выводе должны быть датчики `coretemp` и `applesmc`, а также строки вроде:
+
+```text
+Package id 0
+TG0H
+```
+
+Проверь fan-файлы:
+
+```bash
+ls /sys/devices/platform/applesmc.768/fan*
+```
+
+Перед установкой службы запусти проверку окружения:
+
+```bash
+chmod +x scripts/*.sh
+./scripts/check_environment.sh
+```
+
+Если проверка прошла успешно, можно ставить службу:
+
+```bash
+sudo ./scripts/install.sh
+```
+
 ## 1. Проверка датчиков
 
 ```bash
