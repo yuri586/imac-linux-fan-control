@@ -14,6 +14,14 @@ This repository demonstrates practical Linux automation:
 - documenting a real maintenance task;
 - solving a real problem on old hardware after switching to Linux.
 
+## My role
+
+This project was built in an **AI-assisted development** workflow.
+
+I was responsible for defining the problem, analyzing overheating and fan-control behavior on an old iMac running Linux, checking available sensors, testing `applesmc` fan paths, configuring the systemd services, debugging errors, and bringing the tool to a working state on real hardware.
+
+The code was created with active use of AI tools. I manually verified the result by running Linux commands, checking `sensors` output, testing scripts, checking service status, reviewing logs, and observing the actual fan behavior on the machine.
+
 ## What it does
 
 - Enables manual fan control through `applesmc`
